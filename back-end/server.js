@@ -10,9 +10,7 @@ app.use(express.json({ extended: false }));
 app.use(cors());
 
 //ROUTES
-app.use("/api/user", require("./routers/userRoutes"));
-app.use("/api/profile", require("./routers/profileRoutes"));
-app.use("/api/course", require("./routers/courseRoutes"));
+app.use("/api/category", require("./routers/questionRoutes"));
 
 //DB CONNECTION
 mongoose.connect(

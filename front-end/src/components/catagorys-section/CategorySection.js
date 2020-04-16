@@ -1,75 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import "./catagory.styles.css";
+import { connect } from "react-redux";
 import CatagoryBlock from "../catagory-block/CatagoryBlock";
+import Alert from "../utils/Alert";
+import { SyncLoaderSpinner } from "../utils/Spinner";
 
-const CategorySection = () => {
-	const [catagory, setCatagory] = useState([
-		{
-			name: "HTML Interview Question and Answer",
-			thumbnail:
-				"https://farm5.staticflickr.com/4077/4773108810_a56fb1cbd9_b.jpg",
-			linkUrl: "/interview-html",
-			totalQuestion: 101,
-			coverText:
-				"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure qui dolorum ad nisi, odio dolore? Modi earum deserunt sequi nisi.",
-			student: 161,
-		},
-		{
-			name: "CSS,CSS Animation Interview Questions",
-			thumbnail:
-				"https://www.motocms.com/blog/wp-content/uploads/2018/07/css-main-image.jpg",
-			linkUrl: "/interview-html",
-			totalQuestion: 101,
-			coverText:
-				"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure qui dolorum ad nisi, odio dolore? Modi earum deserunt sequi nisi.",
-			student: 161,
-		},
-		{
-			name: "Bootstarp Interview Question",
-			thumbnail:
-				"https://www.bootstrapdash.com/wp-content/uploads/2017/08/bootstrap-4-beta-whats-new.jpg",
-			linkUrl: "/interview-html",
-			totalQuestion: 101,
-			coverText:
-				"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure qui dolorum ad nisi, odio dolore? Modi earum deserunt sequi nisi.",
-			student: 161,
-		},
-		{
-			name: "Javascript",
-			thumbnail:
-				"https://cdn.acodez.in/wp-content/uploads/2019/08/What-is-Javascript-used-for.jpg",
-			linkUrl: "/interview-html",
-			totalQuestion: 101,
-			coverText:
-				"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure qui dolorum ad nisi, odio dolore? Modi earum deserunt sequi nisi.",
-			student: 161,
-		},
-		{
-			name: "React Interview Question",
-			thumbnail:
-				"https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/fGWjtyQtG4JE7UXgaPAN",
-			linkUrl: "/interview-html",
-			totalQuestion: 101,
-			coverText:
-				"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure qui dolorum ad nisi, odio dolore? Modi earum deserunt sequi nisi.",
-			student: 161,
-		},
-		{
-			name: "Redux Question ",
-			thumbnail:
-				"https://daqxzxzy8xq3u.cloudfront.net/wp-content/uploads/2019/04/21032431/redux-cover-imgage.jpg",
-			linkUrl: "/interview-html",
-			totalQuestion: 101,
-			coverText:
-				"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure qui dolorum ad nisi, odio dolore? Modi earum deserunt sequi nisi.",
-			student: 161,
-		},
-	]);
-	return (
+const CategorySection = ({ categoryState }) => {
+	return categoryState.loading ? (
+		<SyncLoaderSpinner loading={categoryState.loading} />
+	) : (
 		<div className="catagories-section">
+			<Alert />
 			<div className="row">
-				{catagory.map((x, i) => (
-					<div className="col-md-4">
+				{categoryState.category.map((x, i) => (
+					<div className="col-md-4" key={i}>
 						<CatagoryBlock data={x} />
 					</div>
 				))}
@@ -77,5 +21,7 @@ const CategorySection = () => {
 		</div>
 	);
 };
-
-export default CategorySection;
+const mapStateToProps = (state) => ({
+	categoryState: state.categoryReducer,
+});
+export default connect(mapStateToProps)(CategorySection);

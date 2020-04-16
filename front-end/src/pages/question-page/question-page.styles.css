@@ -42,3 +42,6 @@
 	align-items: center;
 	font-weight: 700;
 } /* border-radius: 10px; */
+.card-header {
+	position: relative;
+}

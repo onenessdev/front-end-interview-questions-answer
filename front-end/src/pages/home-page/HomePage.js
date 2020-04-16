@@ -1,8 +1,9 @@
 import React from "react";
 import CategorySection from "../../components/catagorys-section/CategorySection";
 import TeacherCard from "../../components/teacher-card/TeacherCard";
+import { connect } from "react-redux";
 
-const HomePage = () => {
+const HomePage = ({ categoryState }) => {
 	return (
 		<div className="home-page">
 			<div className="container">
@@ -12,5 +13,7 @@ const HomePage = () => {
 		</div>
 	);
 };
-
-export default HomePage;
+const mapStateToProps = (state) => ({
+	categoryState: state.categoryReducer,
+});
+export default connect(mapStateToProps)(HomePage);

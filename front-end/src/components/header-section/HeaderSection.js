@@ -1,6 +1,7 @@
 import React from "react";
 import "./header-section.styles.css";
 import CustomTitle from "../custom-title/CustomTitle";
+import { Link } from "react-router-dom";
 
 const HeaderSection = () => {
 	return (
@@ -8,11 +9,13 @@ const HeaderSection = () => {
 			<div className="container">
 				<div className="row  py-5">
 					<div className="col-md-12">
-						<CustomTitle
-							tagline="Now it's your turn get ready  to  hired as a web developer"
-							thin="Codein Interview Question"
-							medium
-						/>
+						<Link to="/">
+							<CustomTitle
+								tagline="Now it's your turn get ready  to  hired as a web developer"
+								thin="Codeing Interview Question"
+								medium
+							/>
+						</Link>
 					</div>
 				</div>
 			</div>

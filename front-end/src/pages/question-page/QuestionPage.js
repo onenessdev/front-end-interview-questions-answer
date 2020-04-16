@@ -1,19 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./question-page.styles.css";
-import CustomTitle from "../../components/custom-title/CustomTitle";
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 import CreateQuestionForm from "../../components/create-question-form/CreateQuestionForm";
+import { connect } from "react-redux";
+import { getCategoryById } from "../../redux/category/category.actions";
+import { useParams } from "react-router-dom";
+import { SyncLoaderSpinner } from "../../components/utils/Spinner";
 
-const QuestionPage = () => {
-	return (
+const QuestionPage = ({ getCategoryById, categoryState }) => {
+	const categoryId = useParams();
+	useEffect(() => {
+		getCategoryById(categoryId);
+		window.scrollTo({ top: 150, behavior: "smooth" });
+	}, [getCategoryById]);
+	const scrollToCreatFrom = () => {
+		window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+	};
+
+	const getItems = categoryState.category.find(
+		(x) => x._id === categoryId.categoryId
+	);
+	const getQuestions =
+		getItems && getItems.questions.filter((x) => x.status === "approved");
+	return categoryState.loading ? (
+		<SyncLoaderSpinner loading={categoryState.loading} />
+	) : (
 		<div className="question-page">
 			<div className="container">
 				<div className="row">
 					<div className="col-md-12 text-center">
 						<div className="question-block-intro">
-							<h1>Redux Complected Interview Question and answer</h1>
-							<button>Set a Question</button>
+							<h1>{getItems && getItems.title}</h1>
+							<button onClick={scrollToCreatFrom}>Set a Question</button>
 						</div>
 					</div>
 				</div>
@@ -21,62 +40,36 @@ const QuestionPage = () => {
 					<div className="row">
 						<div className="col-md-10 offset-1">
 							<Accordion defaultActiveKey="0">
-								<Card>
-									<Accordion.Toggle as={Card.Header} eventKey="0">
-										<span className="question-number">01</span>
-										What were some of the key goals and motivations for the
-										HTML5 specification?
-									</Accordion.Toggle>
-									<Accordion.Collapse eventKey="0">
-										<Card.Body>
-											<span className="question-ans">Ans:</span>
-											HTML5 was designed to replace both HTML 4, XHTML, and the
-											HTML DOM Level 2. Major goals of the HTML specification
-											were to: Deliver rich content (graphics, movies, etc.)
-											without the need for additional plugins (e.g., Flash).
-											Provide better semantic support for web page structure
-											through the introduction of new structural element tags.
-											Provide a stricter parsing standard to simplify error
-											handling, ensure more consistent cross-browser behavior,
-											and simplify backward compatibility with documents written
-											to older standards. Provide better cross-platform support
-											(i.e., to work well whether running on a PC, Tablet, or
-											Smartphone).
-										</Card.Body>
-									</Accordion.Collapse>
-								</Card>
-								<Card>
-									<Accordion.Toggle as={Card.Header} eventKey="1">
-										What were some of the key goals and motivations for the
-										HTML5 specification?
-									</Accordion.Toggle>
-									<Accordion.Collapse eventKey="1">
-										<Card.Body>
-											HTML5 was designed to replace both HTML 4, XHTML, and the
-											HTML DOM Level 2. Major goals of the HTML specification
-											were to: Deliver rich content (graphics, movies, etc.)
-											without the need for additional plugins (e.g., Flash).
-											Provide better semantic support for web page structure
-											through the introduction of new structural element tags.
-											Provide a stricter parsing standard to simplify error
-											handling, ensure more consistent cross-browser behavior,
-											and simplify backward compatibility with documents written
-											to older standards. Provide better cross-platform support
-											(i.e., to work well whether running on a PC, Tablet, or
-											Smartphone).
-										</Card.Body>
-									</Accordion.Collapse>
-								</Card>
+								{getQuestions.map((x, i) => (
+									<Card key={i}>
+										<Accordion.Toggle as={Card.Header} eventKey={i + 1}>
+											<span className="question-number">{i + 1}</span>
+											{x.questionTitle}
+										</Accordion.Toggle>
+										<Accordion.Collapse eventKey={i + 1}>
+											<Card.Body>
+												<span className="question-ans">
+													<strong>Ans: </strong>
+												</span>
+												{x.answer}
+											</Card.Body>
+										</Accordion.Collapse>
+									</Card>
+								))}
 							</Accordion>
 						</div>
 					</div>
 				</div>
 				<div className="create-question-block">
-					<CreateQuestionForm />
+					<CreateQuestionForm catId={categoryId} />
 				</div>
 			</div>
 		</div>
 	);
 };
 
-export default QuestionPage;
+const mapStatToProps = (state) => ({
+	categoryState: state.categoryReducer,
+});
+
+export default connect(mapStatToProps, { getCategoryById })(QuestionPage);

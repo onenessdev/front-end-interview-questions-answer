@@ -1,8 +1,8 @@
 {
-	"name": "inteviewthree",
+	"name": "doctors-dashboard",
 	"version": "1.0.0",
-	"description": "simple interview question",
-	"main": "node index.js",
+	"description": "",
+	"main": "index.js",
 	"engines": {
 		"node": "v10.15.0"
 	},
@@ -20,6 +20,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"axios": "^0.19.2",
 		"bcryptjs": "^2.4.3",
 		"body-parser": "^1.19.0",
 		"concurrently": "^5.0.2",
@@ -32,8 +33,12 @@
 		"mongoose": "^5.8.9",
 		"multer": "^1.4.2",
 		"nodemon": "^2.0.2",
-		"react-scripts": "^3.4.1",
-		"reactjs-popup": "^1.5.0",
+		"react-calendar": "^3.0.1",
+		"react-date-picker": "^8.0.1",
+		"react-redux": "^7.2.0",
+		"redux": "^4.0.5",
+		"redux-logger": "^3.0.6",
+		"redux-thunk": "^2.3.0",
 		"request": "^2.88.0"
 	}
 }
